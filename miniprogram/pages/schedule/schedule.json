@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "course-detail": "/components/course-detail/course-detail",
+    "time-settings": "/components/time-settings/time-settings"
+  }
+}

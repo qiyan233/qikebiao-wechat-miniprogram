@@ -1,0 +1,574 @@
+/* pages/schedule/schedule.wxss */
+
+/* 变量定义 */
+page {
+  --apple-bg: #F5F5F7;
+  --apple-card-bg: rgba(255, 255, 255, 0.7);
+  --apple-text-main: #1D1D1F;
+  --apple-text-sub: #86868B;
+  --apple-blue: #0071E3;
+  --apple-blue-hover: #0077ED;
+  --apple-border: rgba(0, 0, 0, 0.05);
+  --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  --apple-blur: blur(20px);
+  background-color: var(--apple-bg);
+}
+
+
+.container {
+  min-height: 100vh;
+  background-color: var(--apple-bg);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 登录页 */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40rpx;
+  background-color: var(--apple-bg);
+}
+
+.login-icon {
+  width: 128rpx;
+  height: 128rpx;
+  background: linear-gradient(135deg, #0071E3 0%, #00F2FE 100%);
+  border-radius: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 113, 227, 0.3);
+}
+
+.login-icon-text {
+  font-size: 64rpx;
+  color: #fff;
+}
+
+.login-title {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: var(--apple-text-main);
+  letter-spacing: -0.02em;
+  margin-bottom: 12rpx;
+}
+
+.login-desc {
+  font-size: 28rpx;
+  color: var(--apple-text-sub);
+  margin-bottom: 60rpx;
+}
+
+.login-btn {
+  background: var(--apple-blue);
+  color: white;
+  font-size: 32rpx;
+  font-weight: 600;
+  padding: 28rpx 80rpx;
+  border-radius: 980rpx;
+  border: none;
+  box-shadow: 0 4rpx 16rpx rgba(0, 113, 227, 0.3);
+  transition: all 0.2s ease;
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+  background: var(--apple-blue-hover);
+}
+
+/* 加载中 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--apple-bg);
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid rgba(0, 113, 227, 0.2);
+  border-top-color: var(--apple-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  color: var(--apple-text-sub);
+}
+
+/* 课表容器 */
+.schedule-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--apple-bg);
+}
+
+/* 毛玻璃顶部导航 */
+.header {
+  background: rgba(245, 245, 247, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1rpx solid var(--apple-border);
+  padding: 12rpx 24rpx 14rpx;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  animation: fadeIn 0.3s ease forwards;
+  box-sizing: border-box;
+}
+
+
+
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.title {
+  font-size: 38rpx;
+  font-weight: 700;
+  color: var(--apple-text-main);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.user-badge {
+  font-size: 18rpx;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--apple-text-sub);
+  padding: 4rpx 12rpx;
+  border-radius: 18rpx;
+  font-weight: 500;
+}
+
+/* 周次切换器 */
+.week-selector {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 20rpx;
+  padding: 4rpx;
+  margin-top: 10rpx;
+}
+
+.week-btn {
+  padding: 6rpx 14rpx;
+  border-radius: 16rpx;
+  font-weight: 600;
+  color: var(--apple-text-main);
+  font-size: 22rpx;
+  transition: background 0.2s;
+}
+
+.week-btn:active {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.week-btn.disabled {
+  opacity: 0.3;
+}
+
+.week-label {
+  padding: 0 12rpx;
+  font-weight: 600;
+  font-size: 22rpx;
+  color: var(--apple-text-main);
+}
+
+.no-data-tip {
+  font-size: 22rpx;
+  color: var(--apple-text-sub);
+  margin-top: 10rpx;
+  font-weight: 500;
+}
+
+/* 导入按钮 */
+.import-btn {
+  background: var(--apple-blue);
+  color: white;
+  border-radius: 980rpx;
+  padding: 8rpx 20rpx;
+  font-weight: 600;
+  font-size: 22rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 113, 227, 0.2);
+  transition: all 0.2s ease;
+}
+
+
+
+.import-btn:active {
+  transform: scale(0.98);
+}
+
+/* 共享课表容器 */
+.schedule-frame {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+/* 日期表头 */
+.date-header {
+  display: flex;
+  align-items: stretch;
+  padding: 10rpx 12rpx 10rpx 8rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--apple-text-sub);
+  font-weight: 500;
+  background: rgba(245, 245, 247, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.date-time-column {
+  height: 62rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.date-current-month {
+  font-size: 22rpx;
+  color: var(--apple-text-sub);
+  font-weight: 600;
+}
+
+.date-grid-container {
+  height: 62rpx;
+}
+
+.date-cell {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4rpx;
+  padding: 4rpx 0;
+  box-sizing: border-box;
+}
+
+
+
+
+
+.date-cell.today {
+  color: var(--apple-blue);
+  font-weight: 700;
+}
+
+.date-weekday {
+  font-size: 22rpx;
+  line-height: 1.2;
+}
+
+.date-num-row {
+  min-height: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6rpx;
+}
+
+.date-month {
+  font-size: 18rpx;
+  opacity: 0.72;
+}
+
+.date-num {
+  font-size: 20rpx;
+  opacity: 0.85;
+}
+
+
+/* 课表网格 */
+.schedule-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.schedule-grid {
+  display: flex;
+  padding: 12rpx 12rpx 16rpx 8rpx;
+  position: relative;
+}
+
+/* 网格背景线 */
+.grid-bg-lines {
+  position: absolute;
+  top: 12rpx;
+  left: 84rpx;
+  right: 12rpx;
+  bottom: 16rpx;
+  pointer-events: none;
+  background-size: 100% 116rpx;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  z-index: 0;
+}
+
+/* 时间列 */
+.time-column {
+  width: 72rpx;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.time-cell {
+  height: 116rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 12rpx;
+}
+
+.time-num {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: var(--apple-text-main);
+  margin-bottom: 2rpx;
+}
+
+.time-start {
+  font-size: 18rpx;
+  color: var(--apple-text-sub);
+}
+
+.time-end {
+  font-size: 18rpx;
+  color: var(--apple-text-sub);
+}
+
+/* 课程网格容器 */
+.course-grid-container {
+  flex: 1;
+  position: relative;
+  margin-left: 8rpx;
+}
+
+/* 背景格子线 */
+.grid-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.grid-line {
+  height: 116rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.03);
+}
+
+/* 课程卡片 - 绝对定位 */
+.course-card {
+  position: absolute;
+  border-radius: 18rpx;
+  padding: 10rpx 10rpx 12rpx;
+  box-sizing: border-box;
+  color: rgba(255, 255, 255, 0.95);
+  overflow: hidden;
+  word-break: break-all;
+  display: flex;
+  flex-direction: column;
+  gap: 2rpx;
+  box-shadow: 0 4rpx 14rpx rgba(0, 0, 0, 0.08);
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 2;
+}
+
+
+.course-card:active {
+  transform: scale(0.95);
+}
+
+/* 渐变色系 */
+.bg-apple-pink { background: linear-gradient(135deg, #FF6B8B 0%, #FF8E53 100%); }
+.bg-apple-blue { background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); }
+.bg-apple-green { background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%); }
+.bg-apple-purple { background: linear-gradient(135deg, #B185DB 0%, #C892FF 100%); }
+.bg-apple-orange { background: linear-gradient(135deg, #FA709A 0%, #FEE140 100%); }
+.bg-apple-cyan { background: linear-gradient(135deg, #00C6FB 0%, #005BEA 100%); }
+.bg-apple-yellow { 
+  background: linear-gradient(135deg, #F6D365 0%, #FDA085 100%); 
+  color: #1D1D1F !important;
+}
+.bg-apple-yellow .course-title { text-shadow: none; }
+
+.course-title {
+  font-weight: 600;
+  font-size: 22rpx;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.course-location {
+  font-size: 18rpx;
+  opacity: 0.9;
+  margin-top: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: flex-start;
+  gap: 4rpx;
+}
+
+.course-location-icon {
+  width: 22rpx;
+  height: 22rpx;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.course-teacher {
+  font-size: 18rpx;
+  opacity: 0.78;
+  font-weight: 500;
+}
+
+
+/* 课程卡片入场动画 */
+.course-card-animate {
+  animation: fadeInScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInScale {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.96) translateY(20rpx); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+  }
+}
+
+/* 空状态 */
+.empty-state {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--apple-text-sub);
+}
+
+.empty-icon {
+  width: 128rpx;
+  height: 128rpx;
+  margin-bottom: 32rpx;
+  color: #D1D1D6;
+}
+
+.empty-text {
+  font-weight: 500;
+  font-size: 28rpx;
+}
+
+.empty-tip {
+  font-size: 24rpx;
+  margin-top: 16rpx;
+  color: #C7C7CC;
+}
+
+/* 底部操作栏 */
+.action-bar {
+  display: flex;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border-top: 1rpx solid rgba(0, 0, 0, 0.1);
+  padding: 16rpx 40rpx;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+}
+
+.action-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12rpx;
+  font-size: 22rpx;
+  color: var(--apple-text-sub);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.action-btn:active {
+  color: var(--apple-text-main);
+}
+
+.action-btn.active {
+  color: var(--apple-blue);
+}
+
+.action-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-bottom: 4rpx;
+}
+
+/* 推送按钮 */
+.push-btn {
+  position: relative;
+}
+
+.push-btn-icon-wrap {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 16rpx;
+  border-radius: 50%;
+  margin-bottom: 4rpx;
+}
+
+.push-btn:active .push-btn-icon-wrap {
+  background: rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,9 @@
+{
+  "name": "miniprogram",
+  "version": "1.0.0",
+  "description": "课程表小程序",
+  "main": "app.js",
+  "dependencies": {
+    "@babel/runtime": "^7.23.0"
+  }
+}

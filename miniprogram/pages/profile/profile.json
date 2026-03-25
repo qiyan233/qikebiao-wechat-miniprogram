@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "time-settings": "/components/time-settings/time-settings"
+  }
+}

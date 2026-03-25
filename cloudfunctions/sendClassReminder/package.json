@@ -1,0 +1,9 @@
+{
+  "name": "sendClassReminder",
+  "version": "1.0.0",
+  "description": "上课前自动提醒云函数",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

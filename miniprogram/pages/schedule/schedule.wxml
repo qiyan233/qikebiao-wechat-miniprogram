@@ -1,0 +1,131 @@
+<!--pages/schedule/schedule.wxml-->
+<view class="container">
+  <!-- 未登录状态 -->
+  <view class="login-container" wx:if="{{!hasUserInfo && !loading}}">
+    <view class="login-icon">
+      <text class="login-icon-text">📅</text>
+    </view>
+    <view class="login-title">我的课表</view>
+    <view class="login-desc">请登录以同步您的云端课表</view>
+    <button class="login-btn" bindtap="getUserProfile">微信登录</button>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <view class="loading-text">加载中...</view>
+  </view>
+
+  <!-- 课表内容 -->
+  <view class="schedule-container" wx:if="{{hasUserInfo && !loading}}">
+    <!-- 毛玻璃顶部导航 -->
+    <view class="header" style="padding-top: {{statusBarHeight + 12}}px; min-height: {{navBarHeight}}px; padding-right: {{navCapsuleRight + 120}}px;">
+
+      <view class="header-top">
+
+        <view class="header-left">
+          <view class="title-row">
+            <text class="title">我的课表</text>
+            <text class="user-badge">{{userInfo.nickName || '用户'}}</text>
+          </view>
+          <view class="week-selector" wx:if="{{courses.length > 0}}">
+            <view class="week-btn {{currentWeek <= 1 ? 'disabled' : ''}}" bindtap="prevWeek">‹</view>
+            <text class="week-label">第 {{currentWeek}} 周</text>
+            <view class="week-btn {{currentWeek >= totalWeeks ? 'disabled' : ''}}" bindtap="nextWeek">›</view>
+          </view>
+          <view class="no-data-tip" wx:else>暂无数据，请导入</view>
+        </view>
+        <view class="import-btn" bindtap="importExcel">导入 Excel</view>
+      </view>
+      
+    </view>
+
+
+
+    <view class="schedule-frame">
+      <!-- 日期表头 -->
+      <view class="date-header">
+        <view class="time-column date-time-column">
+          <text class="date-current-month">{{currentMonth ? currentMonth + '月' : ''}}</text>
+        </view>
+        <view class="course-grid-container date-grid-container">
+          <view class="date-cell {{item.isToday ? 'today' : ''}}" wx:for="{{weekDates}}" wx:for-index="index" wx:key="weekday" style="left: calc({{index}} * 14.28%); width: 14.28%;">
+            <text class="date-weekday">{{item.weekday}}</text>
+            <view class="date-num-row">
+              <text class="date-num" wx:if="{{item.day}}">{{item.day}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 课表网格 -->
+      <scroll-view scroll-y class="schedule-scroll">
+
+      <view class="schedule-grid" wx:if="{{courses.length > 0}}">
+        <!-- 网格背景线 -->
+        <view class="grid-bg-lines"></view>
+
+        <!-- 时间列 -->
+        <view class="time-column">
+          <view class="time-cell" wx:for="{{timeSlots}}" wx:key="id">
+            <text class="time-num">{{item.id}}</text>
+            <text class="time-start">{{item.start}}</text>
+            <text class="time-end">{{item.end}}</text>
+          </view>
+        </view>
+
+        <!-- 课程网格 - 使用相对定位容器 -->
+        <view class="course-grid-container">
+          <!-- 背景格子线 -->
+          <view class="grid-lines">
+            <view class="grid-line" wx:for="{{timeSlots}}" wx:key="id"></view>
+          </view>
+          
+          <!-- 课程卡片 - 绝对定位 -->
+              <view class="course-card course-card-animate {{item.colorClass}}" 
+                wx:for="{{coursesList}}" 
+                wx:key="id"
+                style="left: calc({{item.day - 1}} * 14.28%); width: calc(14.28% - 8rpx); top: {{(item.start - 1) * 116}}rpx; height: {{item.span * 116 - 10}}rpx; animation-delay: {{item.delay || 0}}ms;"
+                data-course="{{item}}"
+                bindtap="onCourseCardTap">
+            <view class="course-title">{{item.name}}</view>
+            <view class="course-location" wx:if="{{item.location}}">
+              <text>{{item.location}}</text>
+            </view>
+            <view class="course-teacher" wx:if="{{item.teacher}}">{{item.teacher}}</view>
+          </view>
+        </view>
+      </view>
+
+        <!-- 空状态 -->
+        <view class="empty-state" wx:if="{{courses.length === 0}}">
+          <view class="empty-icon">
+            <svg width="128" height="128" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </view>
+          <text class="empty-text">点击右上角导入课表</text>
+          <text class="empty-tip">支持教务系统导出的 Excel 文件</text>
+        </view>
+      </scroll-view>
+    </view>
+
+  </view>
+</view>
+
+
+<!-- 课程详情弹窗 -->
+<course-detail 
+  wx:if="{{showCourseDetail}}" 
+  course="{{selectedCourse}}" 
+  time-slots="{{timeSlots}}"
+  bind:close="onCloseDetail">
+</course-detail>
+
+<!-- 作息时间设置 -->
+<time-settings
+  wx:if="{{showTimeSettings}}"
+  time-slots="{{timeSlots}}"
+  bind:close="onCloseTimeSettings"
+  bind:save="onSaveTimeSettings">
+</time-settings>

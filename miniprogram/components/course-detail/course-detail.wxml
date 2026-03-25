@@ -1,0 +1,71 @@
+<!--components/course-detail/course-detail.wxml-->
+<view class="mask {{visible ? 'visible' : ''}}" bindtap="onMaskTap">
+  <view class="sheet {{visible ? 'visible' : ''}}" catchtap="preventBubble">
+    <!-- 拖拽指示器 -->
+    <view class="handle" bindtap="onClose"></view>
+
+    <block wx:if="{{course}}">
+      <view class="sheet-body">
+        <!-- 头部 -->
+        <view class="header">
+          <view class="header-info">
+            <view class="course-name">{{course.name}}</view>
+            <view class="course-teacher">{{course.teacher || '未知教师'}}</view>
+          </view>
+          <view class="header-icon {{course.colorClass || 'bg-apple-blue'}}">
+            <text class="header-icon-text">📚</text>
+          </view>
+        </view>
+        
+        <!-- 详细信息卡片 -->
+        <view class="info-card">
+          <!-- 地点 -->
+          <view class="info-item">
+            <view class="info-icon blue">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+            </view>
+            <view class="info-content">
+              <view class="info-label">上课地点</view>
+              <view class="info-value">{{course.location || '未安排地点'}}</view>
+            </view>
+          </view>
+          
+          <!-- 时间 -->
+          <view class="info-item">
+            <view class="info-icon orange">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </view>
+            <view class="info-content">
+              <view class="info-label">上课时间</view>
+              <view class="info-value">星期{{weekDays[course.day - 1]}} 第{{course.start}}-{{course.end}}节</view>
+              <view class="info-sub" wx:if="{{timeSlots[course.start - 1]}}">{{timeSlots[course.start - 1].start}} - {{timeSlots[course.end - 1].end}}</view>
+            </view>
+          </view>
+          
+          <!-- 周次 -->
+          <view class="info-item">
+            <view class="info-icon purple">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </view>
+            <view class="info-content">
+              <view class="info-label">教学周次</view>
+              <view class="info-value">{{formattedWeeks}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <view class="sheet-footer">
+        <button class="close-btn" bindtap="onClose">关闭</button>
+      </view>
+    </block>
+  </view>
+</view>
+

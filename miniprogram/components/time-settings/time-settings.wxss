@@ -1,0 +1,125 @@
+/* components/time-settings/time-settings.wxss */
+
+.full-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #F5F5F7;
+  z-index: 60;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.full-modal.visible {
+  transform: translateY(0);
+}
+
+/* 头部 */
+.header {
+  background: rgba(245, 245, 247, 0.75);
+  backdrop-filter: blur(40rpx);
+  -webkit-backdrop-filter: blur(40rpx);
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+  padding: 0 40rpx;
+  height: 176rpx;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 32rpx;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.cancel-btn {
+  font-size: 30rpx;
+  color: #0071E3;
+  font-weight: 500;
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1D1D1F;
+}
+
+.save-btn {
+  font-size: 30rpx;
+  color: #0071E3;
+  font-weight: 700;
+}
+
+/* 内容区 */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32rpx 40rpx 64rpx;
+}
+
+/* 时间列表 */
+.time-list {
+  background: white;
+  border-radius: 32rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.03);
+  border: 1rpx solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.time-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 32rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.03);
+}
+
+.time-item:last-child {
+  border-bottom: none;
+}
+
+.period-label {
+  font-weight: 700;
+  color: #1D1D1F;
+  width: 96rpx;
+  font-size: 30rpx;
+}
+
+.time-inputs {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.time-input {
+  background: #F5F5F7;
+  border: 1rpx solid rgba(0, 0, 0, 0.1);
+  border-radius: 16rpx;
+  padding: 12rpx 20rpx;
+  font-size: 28rpx;
+  color: #1D1D1F;
+  font-weight: 500;
+  text-align: center;
+  min-width: 120rpx;
+}
+
+.time-input:focus {
+  border-color: #0071E3;
+  background: white;
+}
+
+.dash {
+  color: #C7C7CC;
+  font-size: 28rpx;
+}
+
+/* 提示 */
+.tip {
+  font-size: 22rpx;
+  color: #86868B;
+  text-align: center;
+  margin-top: 32rpx;
+}

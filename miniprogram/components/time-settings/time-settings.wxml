@@ -1,0 +1,29 @@
+<!--components/time-settings/time-settings.wxml-->
+<view class="full-modal visible">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="cancel-btn" bindtap="onClose">取消</view>
+    <view class="title">作息时间</view>
+    <view class="save-btn" bindtap="onSave">保存</view>
+  </view>
+  
+  <!-- 内容区 -->
+  <view class="content">
+    <view class="time-list">
+      <view class="time-item" wx:for="{{slots}}" wx:key="id">
+        <view class="period-label">第 {{item.id}} 节</view>
+        <view class="time-inputs">
+          <picker mode="time" value="{{item.start}}" data-index="{{index}}" data-type="start" bindchange="onTimeChange">
+            <view class="time-input">{{item.start}}</view>
+          </picker>
+          <text class="dash">-</text>
+          <picker mode="time" value="{{item.end}}" data-index="{{index}}" data-type="end" bindchange="onTimeChange">
+            <view class="time-input">{{item.end}}</view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    
+    <view class="tip">设置的时间将在课表和详情中同步显示</view>
+  </view>
+</view>

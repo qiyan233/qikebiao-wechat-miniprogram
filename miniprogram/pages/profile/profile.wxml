@@ -1,0 +1,164 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <view class="login-card" wx:if="{{!hasUserInfo}}">
+    <view class="login-icon">📅</view>
+    <view class="login-title">我的课表</view>
+    <view class="login-desc">登录后即可同步云端课表</view>
+    <button class="login-btn" bindtap="getUserProfile">微信登录</button>
+  </view>
+
+  <block wx:if="{{hasUserInfo}}">
+    <view class="user-header">
+      <view class="user-info">
+        <view class="avatar-wrap">
+          <image class="avatar-image" wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+          <view class="avatar" wx:else>{{userInfo.nickName ? userInfo.nickName[0] : 'U'}}</view>
+          <view class="avatar-actions">
+            <button class="avatar-action avatar-button" open-type="chooseAvatar" bindchooseavatar="onChooseWechatAvatar">微信头像</button>
+            <button class="avatar-action avatar-secondary" bindtap="onChooseCustomAvatar">自定义</button>
+          </view>
+        </view>
+        <view class="user-detail">
+          <input class="nickname-input" type="nickname" value="{{userInfo.nickName || ''}}" placeholder="点击获取微信昵称或手动输入" placeholder-class="nickname-placeholder" bindblur="onNicknameBlur" />
+          <view class="user-role">头像支持微信头像和自定义图片，昵称支持微信昵称和手动修改</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="stats-section">
+      <view class="section-title">本学期数据</view>
+      <view class="stats-card">
+        <view class="stat-item">
+          <view class="stat-value">{{totalCourses}}</view>
+          <view class="stat-label">课程总数</view>
+        </view>
+        <view class="stat-item">
+          <view class="stat-value highlight">{{totalHours}}</view>
+          <view class="stat-label">排课节数</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="settings-section">
+      <view class="section-title">设置</view>
+      <view class="settings-card">
+        <view class="setting-item">
+          <view class="setting-main">
+            <view class="setting-icon purple">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </view>
+            <text class="setting-text">开学第一天</text>
+            <picker mode="date" value="{{semesterStartDate}}" bindchange="onDateChange">
+              <view class="setting-input">{{semesterStartDate || '请选择'}}</view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="setting-item" bindtap="importExcel">
+          <view class="setting-main">
+            <view class="setting-icon orange">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+              </svg>
+            </view>
+            <text class="setting-text">重新导入课表</text>
+            <text class="setting-arrow">›</text>
+          </view>
+        </view>
+
+        <view class="setting-item" bindtap="onOpenTimeSettings">
+          <view class="setting-main">
+            <view class="setting-icon blue">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </view>
+            <text class="setting-text">作息时间设置</text>
+            <text class="setting-arrow">›</text>
+          </view>
+        </view>
+
+
+        <view class="setting-item column-item">
+          <view class="setting-main">
+            <view class="setting-icon green">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+              </svg>
+            </view>
+            <text class="setting-text">课前提醒</text>
+            <switch checked="{{classReminderEnabled}}" color="#34C759" bindchange="onReminderToggle" />
+          </view>
+          <view class="setting-row reminder-row">
+            <text class="setting-subtext">提前提醒</text>
+            <picker mode="selector" range="{{reminderMinuteOptions}}" value="{{reminderMinuteIndex}}" bindchange="onReminderMinutesChange">
+              <view class="setting-input compact">课前 {{reminderMinutes}} 分钟</view>
+            </picker>
+          </view>
+          <view class="setting-row reminder-row">
+            <text class="setting-subtext">测试日期</text>
+            <picker mode="date" value="{{testScanDate}}" bindchange="onTestScanDateChange">
+              <view class="setting-input compact">{{testScanDate || '请选择日期'}}</view>
+            </picker>
+          </view>
+          <view class="setting-row reminder-row">
+            <text class="setting-subtext">测试时间</text>
+            <picker mode="time" value="{{testScanTime}}" bindchange="onTestScanTimeChange">
+              <view class="setting-input compact">{{testScanTime}}</view>
+            </picker>
+          </view>
+          <view class="setting-row reminder-actions-row dual-actions-row">
+            <button class="test-reminder-btn green-btn secondary-btn" bindtap="onTestReminder">测试发送订阅消息</button>
+            <button class="test-reminder-btn green-btn" bindtap="onRunReminderScan">立即扫描提醒</button>
+          </view>
+          <view class="setting-row align-start" wx:if="{{scanResultText}}">
+            <view class="scan-result-box">{{scanResultText}}</view>
+          </view>
+          <view class="setting-row align-start" wx:if="{{dayCourseList.length}}">
+            <view class="day-course-list">
+              <view
+                class="day-course-card {{selectedCourseId === item.id ? 'selected' : ''}}"
+                wx:for="{{dayCourseList}}"
+                wx:key="id"
+                data-id="{{item.id}}"
+                bindtap="onSelectDayCourse"
+              >
+                <view class="day-course-head">
+                  <text class="day-course-name">{{item.name}}</text>
+                  <text class="day-course-badge">{{item.weekText}}</text>
+                </view>
+                <view class="day-course-meta">上课：{{item.startTime}}{{item.endTime ? (' - ' + item.endTime) : ''}}</view>
+                <view class="day-course-meta">提醒：{{item.reminderLabel}}</view>
+                <view class="day-course-meta">地点：{{item.location}}</view>
+              </view>
+            </view>
+          </view>
+          <view class="setting-tip-inline">“立即扫描提醒”只会搜索测试日期当天的全部课程；点某一节课后，系统会按你设置的提前时间发送这节课的提醒</view>
+        </view>
+
+        <view class="setting-item danger" bindtap="handleLogout">
+          <view class="setting-main">
+            <view class="setting-icon red">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+              </svg>
+            </view>
+            <text class="setting-text danger">退出登录</text>
+            <text class="setting-arrow">›</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="setting-tip">设置的时间将在课表和详情中同步显示</view>
+    </view>
+  </block>
+</view>
+
+<time-settings
+  wx:if="{{showTimeSettings}}"
+  time-slots="{{timeSlots}}"
+  bind:close="onCloseTimeSettings"
+  bind:save="onSaveTimeSettings">
+</time-settings>
